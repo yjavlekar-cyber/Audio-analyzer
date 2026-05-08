@@ -1,0 +1,23 @@
+services:
+  backend:
+    build: ./backend
+    container_name: backend-cont
+    ports:
+      - "8000:8000"
+    networks:
+      - analyzer-nw
+
+
+  Frontend:
+    build: ./frontend
+    container_name: frontend-cont
+    ports:
+      - "8080:80"
+    networks:
+      - analyzer-nw
+    depends_on:
+      - backend
+
+networks:
+  analyzer-nw:
+    driver: bridge

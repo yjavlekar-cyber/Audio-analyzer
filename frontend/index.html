@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Analyzer - BPM, Key & Genre</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a2e;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #16213e;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: center;
+            width: 400px;
+        }
+        h1 { color: #0f3460; margin-bottom: 1.5rem; color: #e94560; }
+        input[type="file"] {
+            margin: 1rem 0;
+            padding: 0.5rem;
+            background: #0f3460;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+        button {
+            background-color: #e94560;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover { background-color: #cf3a54; }
+        #result {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: #0f3460;
+            border-radius: 10px;
+            display: none;
+        }
+        .metric { margin: 0.5rem 0; font-size: 1.1rem; }
+        .label { color: #e94560; font-weight: bold; }
+        .loading { display: none; margin-top: 1rem; color: #533483; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Audio Analyzer</h1>
+        <p>Upload a track to detect BPM, Key, and Genre</p>
+        <input type="file" id="audioFile" accept="audio/*">
+        <br>
+        <button onclick="analyzeAudio()">Analyze Track</button>
+        
+        <div class="loading" id="loading">Analyzing... Please wait...</div>
+        
+        <div id="result">
+            <div class="metric"><span class="label">BPM:</span> <span id="bpm">--</span></div>
+            <div class="metric"><span class="label">Key:</span> <span id="key">--</span></div>
+            <div class="metric"><span class="label">Genre:</span> <span id="genre">--</span></div>
+        </div>
+    </div>
+
+    <script>
+        async function analyzeAudio() {
+            const fileInput = document.getElementById('audioFile');
+            const resultDiv = document.getElementById('result');
+            const loading = document.getElementById('loading');
+            
+            if (!fileInput.files[0]) {
+                alert("Please select an audio file first!");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            loading.style.display = 'block';
+            resultDiv.style.display = 'none';
+
+            try {
+                // Assuming backend is running on port 8000 via Docker Compose
+                const response = await fetch('http://localhost:8000/analyze', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+
+                if (data.status === "success") {
+                    document.getElementById('bpm').innerText = data.bpm;
+                    document.getElementById('key').innerText = data.key;
+                    document.getElementById('genre').innerText = data.genre;
+                    resultDiv.style.display = 'block';
+                } else {
+                    alert("Analysis failed: " + (data.error || "Unknown error"));
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Connection to backend failed. Make sure the backend is running.");
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
