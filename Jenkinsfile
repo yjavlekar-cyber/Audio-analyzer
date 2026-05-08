@@ -17,16 +17,16 @@ pipeline {
 
         stage ("push") {
             // OPEN THE VAULT
-                steps{
-                    withcredentials([usernamepassword(credentialsId: 'docker_hub_creds',
-                                                                    usernameVariable: 'USER',
-                                                                    passwordVariable: 'PASS')]) {
+            steps{
+                withcredentials([usernamepassword(credentialsId: 'docker_hub_creds',
+                                                    usernameVariable: 'USER',
+                                                    passwordVariable: 'PASS')]) {
                    // 1. LOGIN using the variables from the vault
                         sh "echo ${PASS}| docker login -u ${USER} --password-stdin"
                          // 2. PUSH using your environment variables
                         sh "docker push ${DOCKER_HUB_USER}/${BACKEND_IMAGE}:latest"
                         sh "docker push ${DOCKER_HUB_USER}/${FRONTEND_IMAGE}:latest"
-                                                    }
+                            }
                         }                            
                     }
 
