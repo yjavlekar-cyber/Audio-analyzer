@@ -9,8 +9,10 @@ pipeline {
         }
     stages {
         stage ("build") {
-            sh "docker build -t ${DOCKER_HUB_USER}/${BACKEND_IMAGE}:latest ./backend"
-            sh "docker build -t ${DOCKER_HUB_USER}/${FRONTEND_IMAGE}:latest ./frontend"
+            steps {
+                sh "docker build -t ${DOCKER_HUB_USER}/${BACKEND_IMAGE}:latest ./backend"
+                sh "docker build -t ${DOCKER_HUB_USER}/${FRONTEND_IMAGE}:latest ./frontend"
+            }
         }
 
         stage ("push") {
