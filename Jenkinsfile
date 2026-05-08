@@ -36,7 +36,7 @@ pipeline {
 
         stage ("deploy") {
             steps {
-            sh "docker-compose pull && docker-compose up"
+            sh "docker-compose up -d"
             }
         }
     }
