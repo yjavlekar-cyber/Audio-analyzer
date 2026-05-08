@@ -21,7 +21,7 @@ pipeline {
                                                                         usernameVariable: 'USER',
                                                                         passwordVariable: 'PASS',)]) {
                    // 1. LOGIN using the variables from the vault
-                        sh "echo ${pass}"| docker login -u ${user} --password-stdin"
+                        sh "echo ${pass}|docker login -u ${user} --password-stdin"
                          // 2. PUSH using your environment variables
                         sh "docker push ${DOCKER_HUB_USER}/${BACKEND_IMAGE}:latest"
                         sh "docker push ${DOCKER_HUB_USER}/${FRONTEND_IMAGE}:latest"
