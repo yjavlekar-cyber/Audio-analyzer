@@ -36,6 +36,7 @@ pipeline {
 
         stage ("deploy") {
             steps {
+            sh "docker-compose down"
             sh "docker-compose up -d --no-recreate"
             }
         }
