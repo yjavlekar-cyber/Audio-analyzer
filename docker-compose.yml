@@ -12,7 +12,7 @@ services:
     build: ./frontend
     container_name: frontend-cont
     ports:
-      - "8080:80"
+      - "8081:80"
     networks:
       - analyzer-nw
     depends_on:
