@@ -18,6 +18,7 @@ pipeline {
         stage ("push") {
             // OPEN THE VAULT
             steps{
+                script{
                 withcredentials([usernamepassword(credentialsId: 'docker_hub_creds',
                                                     usernameVariable: 'USER',
                                                     passwordVariable: 'PASS')]) {
@@ -26,6 +27,7 @@ pipeline {
                          // 2. PUSH using your environment variables
                         sh "docker push ${DOCKER_HUB_USER}/${BACKEND_IMAGE}:latest"
                         sh "docker push ${DOCKER_HUB_USER}/${FRONTEND_IMAGE}:latest"
+                                }                     
                             }
                         }                            
                     }
