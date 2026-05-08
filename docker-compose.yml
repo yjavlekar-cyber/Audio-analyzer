@@ -8,7 +8,7 @@ services:
       - analyzer-nw
 
 
-  Frontend:
+  frontend:
     build: ./frontend
     container_name: frontend-cont
     ports:
