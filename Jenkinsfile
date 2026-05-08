@@ -6,8 +6,7 @@ pipeline {
         DOCKER_HUB_USER = 'yjawlekar'
         BACKEND_IMAGE   = 'audio-analyzer-backend'
         FRONTEND_IMAGE  = 'audio-analyzer-frontend'
-        
-    }
+        }
     stages {
         stage ("build") {
             sh "docker build -t ${DOCKER_HUB_USER}/${BACKEND_IMAGE}:latest ./backend"
@@ -26,7 +25,10 @@ pipeline {
                         sh "docker push ${DOCKER_HUB_USER}/${BACKEND_IMAGE}:latest"
                         sh "docker push ${DOCKER_HUB_USER}/${FRONTEND_IMAGE}:latest"
                                                     }
+                        }                            
                     }
+
+
 
         stage ("deploy") {
             sh "docker-compose pull && docker-compose up"
