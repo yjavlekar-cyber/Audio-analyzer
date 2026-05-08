@@ -18,8 +18,8 @@ pipeline {
             // OPEN THE VAULT
                     steps{
                         withcredentials([usernamepassword(credentialsId: 'docker_hub_creds',
-                                                                        usernameVariable: 'USER'
-                                                                        passwordVariable: 'PASS')]) {
+                                                                        usernameVariable: 'USER',
+                                                                        passwordVariable: 'PASS',)]) {
                    // 1. LOGIN using the variables from the vault
                         sh "echo ${pass}"| docker login -u ${user} --password-stdin"
                          // 2. PUSH using your environment variables
