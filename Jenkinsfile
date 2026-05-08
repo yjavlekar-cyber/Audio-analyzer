@@ -19,7 +19,7 @@ pipeline {
             // OPEN THE VAULT
             steps{
                 script{
-                withCredentials([usernamePassword(credentialsId: 'docker_hub_creds',
+                withCredentials([usernamePassword(credentialsId: '50173758-23c8-433e-b21c-28fe28108752',
                                                     usernameVariable: 'USER',
                                                     passwordVariable: 'PASS')]) {
                    // 1. LOGIN using the variables from the vault
